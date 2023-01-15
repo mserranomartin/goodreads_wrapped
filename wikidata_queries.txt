@@ -1,0 +1,25 @@
+SELECT ?escritor ?escritorLabel ?país_de_nacionalidad ?país_de_nacionalidadLabel WHERE {
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+        ?escritor wdt:P106 wd:Q36180.
+        ?escritor wdt:P735 ` + name + ` .
+        ?escritor wdt:P734 wd:Q16882155.
+        OPTIONAL { ?escritor wdt:P27 ?país_de_nacionalidad. }
+      }
+      LIMIT 100
+SELECT ?escritor ?escritorLabel ?país_de_nacionalidad ?país_de_nacionalidadLabel WHERE {
+  ?escritor wdt:P106 wd:Q36180.
+  FILTER (CONTAINS(?escritorLabel, "Eddie")) .
+  FILTER (CONTAINS(?escritorLabel, "Robson")).
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  }
+
+
+// esta es la mejor por ahora
+SELECT ?writer ?writerLabel ?sex_or_gender ?sex_or_genderLabel ?country_of_citizenship ?country_of_citizenshipLabel WHERE {
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  ?writer wdt:P106 wd:Q36180
+  OPTIONAL { ?writer wdt:P21 ?sex_or_gender. }
+  OPTIONAL { ?writer wdt:P27 ?country_of_citizenship. }
+}
+LIMIT 100
+

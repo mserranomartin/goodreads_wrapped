@@ -1,0 +1,34 @@
+body {
+    margin: 20px;
+    background-color: #FFF6E0;
+}
+
+body > h1 {
+    text-align: center;
+}
+
+.card {
+    max-width: max-content;
+    margin: auto;
+    background-color: #FFFBF2;
+}
+
+.card-body .fw-lighter {
+    display: inline-block;
+}
+
+.bi-file-earmark-arrow-up {
+    cursor:pointer;
+}
+
+.row {
+    display: flex;
+}
+
+.cls-0 {
+    fill: #ddbea9;
+}
+
+.highlight {
+    color: #CB997E;
+}
