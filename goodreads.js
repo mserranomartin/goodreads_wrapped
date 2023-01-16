@@ -108,7 +108,7 @@ function languages(df){
                 text.innerText = "You've been a bilingual reader this year!"
             }
             
-            Plotly.newPlot('languages', data, layout, {displayModeBar: false});
+            Plotly.newPlot('languages', data, layout, {displayModeBar: false, scrollZoom: false});
         }
     });
 }
@@ -191,7 +191,7 @@ function ratingComparison(df) {
         },
         height: WIDTH
     };
-    Plotly.newPlot('rating_comp', [data], layout, {displayModeBar: false});
+    Plotly.newPlot('rating_comp', [data], layout, {displayModeBar: false, staticPlot :true});
 
     let text = document.getElementById('correlation_text');
     if (corr < 0.5) {
@@ -253,7 +253,7 @@ function monthly(df){
           opacity: 0.7,
         }
       };
-    Plotly.newPlot('monthly_reads', [data], layout, {displayModeBar: false});
+    Plotly.newPlot('monthly_reads', [data], layout, {displayModeBar: false, staticPlot :true});
 }
 
 function newauthors(df){
@@ -320,7 +320,7 @@ function readFromToReadPile(df){
             text.innerText = 'Wow, you are actually reading from your to-read pile'
         }
     }
-    Plotly.newPlot('read_from_to_read', data, layout, {displayModeBar: false}); 
+    Plotly.newPlot('read_from_to_read', data, layout, {displayModeBar: false, staticPlot :true}); 
 }
 
 function currentToReadPile(df){
@@ -376,7 +376,7 @@ function currentToReadPile(df){
                 text.innerText = 'and you want to make the problem worse';
             }   
         }
-        Plotly.newPlot('current_to_read', data, layout, {displayModeBar: false});
+        Plotly.newPlot('current_to_read', data, layout, {displayModeBar: false, staticPlot :true});
     }
 }
 
