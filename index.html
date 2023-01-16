@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+    <script>
+        const WIDTH = screen.availWidth - 80 // body:{padding: 40px};
+        document.onload = function() {
+            document.getElementsByClassName('fixed-width').forEach(element => {
+                element.style['width'] = WIDTH;
+            });
+        }
+    </script>
     <script src="goodreads.js"></script>
     <script>
         function centerMiddle(){
@@ -17,10 +25,10 @@
         }
     </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <title>Unofficial Goodreads Wrapped</title>
 </head>
-
 <body>
     <h1>Unofficial Goodreads Wrapped</h1>
     <main class="mt-5">
@@ -52,46 +60,71 @@
                     wrapped(df);
                 })
                 document.querySelector('main').removeChild(loader);
-                document.querySelector('.container.text-center').style['display'] = 'block';
+                document.querySelector('body > h1').style['font-size'] = '1em';
+                document.querySelector('#carouselWrapped').style['display'] = 'block';
                 df = await dfd.readCSV(csvFile).then((df) => {
                     return df
                 })
             }
         </script>
+        <div id="carouselWrapped" class="carousel slide" style="display: none;">
+            <div class="carousel-inner">
+                <!-- BOOKS READ -->
+                <div class="carousel-item active">
+                    <div class="row">
+                        <h3>This year you've read...</h3>
+                        <div class="col text-center">
+                            <div id="number_books"></div>
+                        </div>
+                        <div class="col text-center">
+                            <div id="new_authors"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="monthly_reads"></div>
+                    </div>
+                    <div class="row mt-4">
+                        <h3 id="most_read_text">and your most-read author is</h3>
+                        <div id="most_read" class="text-center"></div>
+                    </div>
+                </div> 
+                <!-- TO-READ PILE -->
+                <div class="carousel-item">
+                    <div class="row">
+                        <h3 id="to_read_text1">Your last year's to-read pile is still to be read...</h3>
+                        <div id="read_from_to_read" class="fixed-width"></div>
+                    </div>
+                    <div class="row">
+                        <h3 id="to_read_text2">...but that didn't refrain you from adding more</h3>
+                        <div id="current_to_read" class="fixed-width"></div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <h3>You rated some books...</h3>
+                        <div id="rating_comp"></div>
+                    </div>
+                    <div class="row">
+                        <h3 id="correlation_text" class="mt-3"></h3>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselWrapped" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselWrapped" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         <div class="container text-center" style="display:none">
             <div class="row">
-                <p>This year you've read...</p>
-                <div class="col">
-                    <div id="number_books"></div>
-                </div>
-                <div class="col">
-                    <div id="new_authors"></div>
-                </div>
-                <div class="col">
-                    <div id="most_read"></div>
-                </div>
+                
             </div>
-            <!-- TO-READ PILE -->
-            <div class="row">
-                <div class="col">
-                    <div id="current_to_read"></div>
-                </div>
-                <div class="col">
-                    <div id="read_from_to_read"></div>
-                </div>
-            </div>
+            
+            
             <!-- BAR PLOTS -->
-            <div class="row" style="align-items: center">
-                <div class="col">
-                    <div id="monthly_reads"></div>
-                </div>
-                <div class="col">
-                    <div id="rating_comp"></div>
-                </div>
-                <div class="col">
-                    <div id="correlation"></div>
-                </div>
-            </div>            
             <!-- LANGUAGES & NATIONALITIES -->
             <div class="row">
                 <div class="col">

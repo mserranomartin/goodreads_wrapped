@@ -1,6 +1,12 @@
+html {
+    background-color: black;
+    height: 100%;
+}
 body {
-    margin: 20px;
+    height: 100%;
+    padding: 40px;
     background-color: #FFF6E0;
+    border-radius: 10px;
 }
 
 body > h1 {
@@ -21,14 +27,17 @@ body > h1 {
     cursor:pointer;
 }
 
-.row {
-    display: flex;
-}
-
 .cls-0 {
     fill: #ddbea9;
 }
 
 .highlight {
     color: #CB997E;
+    font-size: 4em;
+}
+.fixed-width {
+    width: inherit;
+}
+.carousel-control-prev, .carousel-control-next {
+    position: fixed;
 }
