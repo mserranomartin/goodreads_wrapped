@@ -349,7 +349,7 @@ function readFromToReadPile(df){
         if (actuallyRead == 0){
             text.innerText = "You didn't touch your last year's to-read pile"
         } else if (actuallyRead/(stillUnread + actuallyRead) < 0.5) {
-            text.innerText = "Your last year's pile to-read pile is still to be read "
+            text.innerText = "Your last year's to-read pile is still to be read "
         } else {
             text.innerText = 'Wow, you are actually reading from your to-read pile'
         }
