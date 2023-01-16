@@ -1,0 +1,12 @@
+<select onchange="" name="palette" id="palette">
+                <option value="pink">Pink</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="yellow">Yellow</option>
+                <option value="brown">Brown</option>
+</select>
+<script>
+    const schemes = {
+        'pink': ['f08080','f4978e','f8ad9d','fbc4ab','ffdab9'],
+    }
+</script>

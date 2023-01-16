@@ -37,10 +37,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col">
-                            <p class="card-text">Click to load your Goodreads library export</p>
+                            <p class="card-text">Go to <a href="https://www.goodreads.com/review/import">this page</a> to export your library in <tt>.csv</tt> format, and then click the icon to upload it and see your Wrapped</p>
                         </div>
                         <div class="col text-center">
-                            <svg onload="centerMiddle()" onclick="upload()" xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="#A5A58D" class="bi bi-file-earmark-arrow-up position-relative" viewBox="0 0 16 16">
+                            <svg onload="centerMiddle()" onclick="upload()" xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" fill="#CB997E" class="bi bi-file-earmark-arrow-up position-relative" viewBox="0 0 16 16">
                                 <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
                                 <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
                             </svg>
@@ -99,6 +99,7 @@
                         <div id="current_to_read" class="fixed-width"></div>
                     </div>
                 </div>
+                <!-- RATINGS -->
                 <div class="carousel-item">
                     <div class="row">
                         <h3>You rated some books...</h3>
@@ -107,6 +108,11 @@
                     <div class="row">
                         <h3 id="correlation_text" class="mt-3"></h3>
                     </div>
+                </div>
+                <!-- LANGUAGES -->
+                <div class="carousel-item" id="carousel-languages">
+                    <h3 id="languages_text"></h3>
+                    <div id="languages"></div>
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselWrapped" data-bs-slide="prev">
@@ -118,35 +124,6 @@
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-        <div class="container text-center" style="display:none">
-            <div class="row">
-                
-            </div>
-            
-            
-            <!-- BAR PLOTS -->
-            <!-- LANGUAGES & NATIONALITIES -->
-            <div class="row">
-                <div class="col">
-                    <div id="languages"></div>
-                </div>
-                <div class="col">
-                    <div id="nationalities"></div>
-                </div>
-            </div>
-            <select onchange="" name="palette" id="palette">
-                <option value="pink">Pink</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
-                <option value="yellow">Yellow</option>
-                <option value="brown">Brown</option>
-            </select>
-            <script>
-                const schemes = {
-                    'pink': ['f08080','f4978e','f8ad9d','fbc4ab','ffdab9'],
-                }
-            </script>
-        </div>
     </main>
 </body>
 

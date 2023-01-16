@@ -5,7 +5,7 @@ const PALETTE = ['cb997e','ddbea9','ffe8d6','b7b7a4','a5a58d','6b705c'];
 //https://coolors.co/palette/f08080-f4978e-f8ad9d-fbc4ab-ffdab9 PINKS
 //https://coolors.co/palette/585123-eec170-f2a65a-f58549-772f1a
 
-const layout = {
+const basicLayout = {
     legend: {"orientation": "h"},
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
@@ -72,35 +72,44 @@ function languages(df){
     }
     
     getLanguages(bookData).then(languages => {
-        let langCount = {}
-
-        languages.forEach(lang => {
-            if (Object.keys(langCount).includes(lang)) {
-                langCount[lang] += 1;
-            } else {
-                langCount[lang] = 1;
+        let n = languages.filter((v, i, a) => a.indexOf(v) === i).length
+        if (n < 2){
+            let section = document.getElementById('carousel-languages');
+            section.parentElement.removeChild(section);
+        } else {
+            let langCount = {}
+            languages.forEach(lang => {
+                if (Object.keys(langCount).includes(lang)) {
+                    langCount[lang] += 1;
+                } else {
+                    langCount[lang] = 1;
+                }
+            });
+                    
+            // plot
+            let layout = {...basicLayout,
+                height: WIDTH,
             }
-        });
-                
-        // plot
-        Object.assign(layout, {
-            title: {
-                text: "Languages"
-            },
-            })
-
-        var data = [{
-            values: Object.values(langCount),
-            labels: Object.keys(langCount),
-            marker:{
-                colors: PALETTE,
-            },
-            type: 'pie',
-            textinfo: 'value',
-            automargin: true,
-            }];
-        
-        Plotly.newPlot('languages', data, layout, {displayModeBar: false});
+            var data = [{
+                values: Object.values(langCount),
+                labels: Object.keys(langCount),
+                marker:{
+                    colors: PALETTE,
+                },
+                type: 'pie',
+                textinfo: 'value',
+                automargin: true,
+                }];
+            
+            let text = document.getElementById('languages_text');
+            if (n >= 3) {
+                text.innerText = 'You read books in a few languages!'
+            } else {
+                text.innerText = "You've been a bilingual reader this year!"
+            }
+            
+            Plotly.newPlot('languages', data, layout, {displayModeBar: false});
+        }
     });
 }
 
@@ -145,7 +154,7 @@ function ratingComparison(df) {
         } 
     };
     
-    Object.assign(layout, {
+    let layout = {...basicLayout,
         annotations: [{
               x: 4.5,
               y: 5.5,
@@ -181,7 +190,7 @@ function ratingComparison(df) {
             tickvals: [0,1,2,3,4,5]
         },
         height: WIDTH
-    });
+    };
     Plotly.newPlot('rating_comp', [data], layout, {displayModeBar: false});
 
     let text = document.getElementById('correlation_text');
@@ -227,13 +236,13 @@ function monthly(df){
     });
     
     // barplot
-    Object.assign(layout, {
+    let layout = {...basicLayout,
         yaxis: {
             showgrid: false,
             showline: true,
         },
         height: WIDTH,
-    })
+    }
     let data = {
         x: MONTH_NAME,
         y: y,
@@ -294,9 +303,9 @@ function readFromToReadPile(df){
         automargin: true,
         }];
     
-    Object.assign(layout, {
+    let layout = {...basicLayout,
         height: screen.availHeight/3.5,
-    })
+    }
     
     let text = document.getElementById('to_read_text1')
     
@@ -345,9 +354,9 @@ function currentToReadPile(df){
         automargin: true,
         }];
     
-    Object.assign(layout, {
+    let layout = {...basicLayout,
         height: screen.availHeight/3.5,
-    })
+    }
 
     let text = document.getElementById('to_read_text2')
     
