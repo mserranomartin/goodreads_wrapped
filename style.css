@@ -33,7 +33,7 @@ body > h1 {
 
 .highlight {
     color: #CB997E;
-    font-size: 4em;
+    font-size: 3em;
 }
 .fixed-width {
     width: inherit;
@@ -43,5 +43,4 @@ body > h1 {
 }
 a {
     text-decoration: none !important;
-    color: #CB997E;
 }

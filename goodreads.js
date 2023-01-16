@@ -29,12 +29,25 @@ function wrapped(df){
     
     monthly(df);
     numberBooks(df);
-    newauthors(df);
+    authors(df);
     currentToReadPile(df);
     readFromToReadPile(df);
     mostRead(df);
     ratingComparison(df);
     languages(df);
+    ranking(df);
+}
+
+function ranking(df){
+    let books = df.groupby(['Read This Year']).getGroup([true]).loc({ columns:['Title', 'Author', 'My Rating']});
+    books.sortValues("My Rating", {ascending:false, inplace: true });
+    books = books.resetIndex();
+    let top5 = books.loc({rows:[0,1,2,3,4] }).values;
+
+    document.getElementById('ranking').innerHTML = "";
+    for (let k = 0; k < 5; k++) {
+        document.getElementById('ranking').innerHTML += `<div class="row"><div class="col-8"><h5><span style="color: #CB997E;">${k+1}. </span><em>${top5[k][0]}</em>, de ${top5[k][1]}</h5></div><div class="col text-center"><h5 style="color: #CB997E;">${"★".repeat(top5[k][2])}</h5></div></div>`;
+    };
 }
 
 function numberBooks(df){
@@ -150,7 +163,8 @@ function ratingComparison(df) {
         type: 'scatter',
         mode: 'markers',
         marker:{
-            color: PALETTE[0]
+            color: PALETTE[0],
+            size: 8,
         } 
     };
     
@@ -213,6 +227,7 @@ function mostRead(df){
 
     if (n>1) {
         div.innerHTML = "<h2 class='highlight'>"+mostAuthor.values+"</h2>";
+
     } else {
         div.parentElement.removeChid(document.getElementById('most_read_text'));
         div.parentElement.removeChid(div);
@@ -256,18 +271,37 @@ function monthly(df){
     Plotly.newPlot('monthly_reads', [data], layout, {displayModeBar: false, staticPlot :true});
 }
 
-function newauthors(df){
+function authors(df){
     // number of new authors you've read
-    let isReadThisYear = df.groupby(['Read This Year'])
-    let authorsThisYear = isReadThisYear.getGroup([true])['Author'].unique().values;
-    let authorsPreviousYears = isReadThisYear.getGroup([false])['Author'].unique().values;
-    let newNames = authorsThisYear.filter(name => !authorsPreviousYears.includes(name));
-    let div = document.getElementById('new_authors');
-    if (newNames.length > 0){
-        div.innerHTML = "<h1 class='highlight'>"+newNames.length+"</h1><h4>new authors!</h4>";
-    } else {
-        div.innerHTML = "<h1 class='highlight'>"+0+"</h1><h4>new authors :(</h4>";
+    let isReadThisYear = df.groupby(['Read This Year']),
+        authorsThisYear = isReadThisYear.getGroup([true])['Author'].unique().values;
+
+    let n = authorsThisYear.length;
+    document.getElementById('number_authors').innerText = n;
+
+    let authorsPreviousYears = isReadThisYear.getGroup([false])['Author'].unique().values,
+        newNames = authorsThisYear.filter(name => !authorsPreviousYears.includes(name)),
+        m = newNames.length
+        div = document.getElementById('number_authors');
+    div.innerHTML = "<h1 class='highlight'>" + m + "</h1><h4>authors!</h4>";
+
+    //plot
+    var data = [{
+        values: [n, m],
+        labels: ['Authors read in previous years','Authors read for the first time'],
+        marker:{
+            colors: PALETTE,
+        },
+        type: 'pie',
+        textinfo: 'value',
+        automargin: true,
+        }];
+    
+    let layout = {...basicLayout,
+        height: WIDTH,
     }
+    Plotly.newPlot('ratio_authors', data, layout, {displayModeBar: false, staticPlot :true}); 
+
 }
 
 function readFromToReadPile(df){
