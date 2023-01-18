@@ -152,8 +152,8 @@ function ratings(df) {
     let myRating = readThisYear['My Rating'].values;
     let avgRating = readThisYear['Average Rating'].values;
     
-    //let corr = pcorr(myRating, avgRating).toFixed(2);
-    //let color = gradientValue(corr);
+    let corr = pcorr(myRating, avgRating).toFixed(2);
+    let color = gradientValue(corr);
 
     // scatterPlot
     var data = {
@@ -163,7 +163,6 @@ function ratings(df) {
         mode: 'markers',
         marker:{
             color: PALETTE[0],
-            size: 8,
         } 
     };
     
@@ -173,7 +172,6 @@ function ratings(df) {
               y: 5.5,
               xref: 'x',
               yref: 'y',
-              //text: "Correlation: " + corr,
               ax: 0,
               ay: 0
             }],
@@ -205,6 +203,8 @@ function ratings(df) {
         height: WIDTH,
     };
     Plotly.newPlot('rating_comp', [data], layout, {displayModeBar: false, staticPlot :true});
+
+    document.getElementById('correlation').innerHTML += "<span style='color:rgb("+color+")'>"+corr+"</span>";
 
     /* let text = document.getElementById('correlation_text');
     if (corr < 0.5) {
@@ -276,18 +276,16 @@ function authors(df){
         authorsThisYear = isReadThisYear.getGroup([true])['Author'].unique().values;
 
     let n = authorsThisYear.length;
-    document.getElementById('number_authors').innerText = n;
+    document.getElementById('number_authors').innerHTML = "<h1 class='highlight'>" + n + "</h1><h4>authors!</h4>";
 
-    let authorsPreviousYears = isReadThisYear.getGroup([false])['Author'].unique().values,
-        newNames = authorsThisYear.filter(name => !authorsPreviousYears.includes(name)),
-        m = newNames.length
-        div = document.getElementById('number_authors');
-    div.innerHTML = "<h1 class='highlight'>" + m + "</h1><h4>authors!</h4>";
+    let authorsPreviousYears = isReadThisYear.getGroup([false])['Author'].unique().values;
+    let newAuthors = authorsThisYear.filter(name => !authorsPreviousYears.includes(name));
+    let m = newAuthors.length;
 
     //plot
     var data = [{
-        values: [n, m],
-        labels: ['Authors read in previous years','Authors read for the first time'],
+        values: [n-m, m],
+        labels: ["Authors you had read before",'Authors read for the first time'],
         marker:{
             colors: PALETTE,
         },
@@ -305,8 +303,8 @@ function authors(df){
 
 function readFromToReadPile(df){
     // #(read this year from Added previous yeards)
-    let addedBefore = df.groupby(['Added This Year']).getGroup([false])
-                        .groupby(['Read This Year']).col(['Read This Year']).count();
+        let addedBefore = df.groupby(['Added This Year']).getGroup([false])
+                            .groupby(['Read This Year']).col(['Read This Year']).count();
 
     let stillUnread, actuallyRead;
     if (addedBefore['Read This Year'].values.length == 2) {
@@ -321,8 +319,6 @@ function readFromToReadPile(df){
             stillUnread = 0;
         }
     }
-
-    console.log()
     
     // plot
     var data = [{
@@ -340,7 +336,7 @@ function readFromToReadPile(df){
         height: screen.availHeight/4,
     }
     
-    let text = document.getElementById('to_read_text1')
+    /*let text = document.getElementById('to_read_text1')
     
     if (stillUnread == 0) {
         text.innerText = "Your last year's to-read pile was empty"
@@ -352,7 +348,7 @@ function readFromToReadPile(df){
         } else {
             text.innerText = "You actually read from your last year's to-read pile"
         }
-    }
+    } */
     Plotly.newPlot('read_from_to_read', data, layout, {displayModeBar: false, staticPlot :true}); 
 }
 
@@ -391,7 +387,7 @@ function currentToReadPile(df){
         height: screen.availHeight/4,
     }
 
-    let text = document.getElementById('to_read_text2')
+    /*let text = document.getElementById('to_read_text2')
     
     if (addedBefore + addedThisYear == 0) {
         text.innerText = "and this year's to-read pile stays the same!";
@@ -402,15 +398,13 @@ function currentToReadPile(df){
             if (addedThisYear == 0){
                 text.innerText = "and this year's pile is made of leftovers";
             } else if (addedThisYear/(addedBefore + addedThisYear) < 0.5) {
-                console.log(addedThisYear);
-                console.log(addedThisYear/(addedBefore + addedThisYear));
                 text.innerText = "and this year's pile has new stuff"
             } else {
                 text.innerText = "and this year's pile is looking worse";
             }   
         }
-        Plotly.newPlot('current_to_read', data, layout, {displayModeBar: false, staticPlot :true});
-    }
+    }*/
+    Plotly.newPlot('current_to_read', data, layout, {displayModeBar: false, staticPlot :true});
 }
 
 // HELPER FUNCTIONS
@@ -427,7 +421,8 @@ function add(x,y) {
     return result
 }
 
-function gradientValue(t){
+function gradientValue(theta){
+    let t = (theta + 1)/2;
     return add(times([203, 153, 126], 1-t), times([165, 165, 141],t))
 }
 
@@ -449,3 +444,15 @@ const pcorr = (x, y) => {
     x.forEach(reduce);
     return (minLength * sumXY - sumX * sumY) / Math.sqrt((minLength * sumX2 - sumX * sumX) * (minLength * sumY2 - sumY * sumY));
   };
+
+  function correlation(array1, array2){
+    let data = [];
+
+    for (let index = 0; index < array1.length; index++) {
+        data += {'var1': array1[index],'var2': array2[index]}
+    }
+    var vars = {'var1': 'metric', 'var2': 'metric'} // same data as in the example for the assignRanks() method
+    var stats = new Statistics(data, vars);
+    var dependence = stats.spearmansRho('age', 'iq');
+    return dependence['rho']
+  }

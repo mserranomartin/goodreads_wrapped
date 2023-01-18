@@ -13,6 +13,10 @@ body > h1 {
     text-align: center;
 }
 
+h4 {
+    font-size: 5vw;
+}
+
 .card {
     max-width: max-content;
     margin: auto;
@@ -40,9 +44,6 @@ body > h1 {
 }
 .carousel-control-prev, .carousel-control-next {
     position: fixed;
-}
-a {
-    text-decoration: none !important;
 }
 .ranking {
     font-size: 4vw;

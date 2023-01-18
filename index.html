@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+    <script src="statistics.min.js"></script>
     <script>
         const WIDTH = screen.availWidth - 80 // body:{padding: 40px};
         document.onload = function() {
@@ -97,11 +98,11 @@
                 <!-- MOST READ -->
                 <div class="carousel-item"  data-bs-interval="10000">
                     <div class="row">
-                        <h4 id="most_read_text">There are old and new friends among your readings...</h4>
+                        <h4>Had you already read something by the same writers? Take a look</h4>
                         <div id="ratio_authors"></div>
                     </div>
                     <div class="row mt-3">
-                        <h4>but of all of them, the one you read the most was</h4>
+                        <h4 id="most_read_text">But old friend or not, the one you read the most this year was</h4>
                         <div id="most_read" class="text-center"></div>
                     </div>
                 </div>
@@ -116,21 +117,19 @@
                     <div class="row">
                         <h4>We've plotted your ratings against the average</h4>
                         <div id="rating_comp"></div>
-                        <h4 class="mt-2">Do you tend to agree with other reviews?</h4>
                     </div>
                     <div class="row">
-                        <h4></h4>
-                        <!-- <h4 id="correlation_text" class="mt-3"></h4> -->
+                        <h4 id="correlation">and the <a target="_blank" href="https://simple.wikipedia.org/wiki/Correlation" style="color: #CB997E;">correlation</a> between them is </h4>
                     </div>
                 </div>
                 <!-- TO-READ PILE -->
                 <div class="carousel-item"  data-bs-interval="10000">
                     <div class="row">
-                        <h4 id="to_read_text1">Your last year's to-read pile is still to be read...</h4>
+                        <h4 id="to_read_text1">This is how you've dealt with your to-read shelf from the beginning of 2022</h4>
                         <div id="read_from_to_read" class="fixed-width"></div>
                     </div>
                     <div class="row">
-                        <h4 id="to_read_text2">...but that didn't refrain you from adding more</h4>
+                        <h4 id="to_read_text2">and this is your to-read shelf at the start of 2023</h4>
                         <div id="current_to_read" class="fixed-width"></div>
                     </div>
                 </div>
