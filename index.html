@@ -31,7 +31,7 @@
 </head>
 <body>
     <h1>Unofficial Goodreads Wrapped</h1>
-    <main class="mt-5">
+    <main class="mt-4">
         <div class="card" id="loader">
             <div class="card-body">
                 <div class="container">
@@ -67,12 +67,21 @@
                 })
             }
         </script>
-        <div id="carouselWrapped" class="carousel slide" style="display: none;">
+        <div id="carouselWrapped" class="carousel slide" data-bs-ride="carousel" style="display: none;">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselWrapped" data-bs-slide-to="0" class="active" aria-current="true" aria-label="books-read"></button>
+                <button type="button" data-bs-target="#carouselWrapped" data-bs-slide-to="1" aria-label="most-read"></button>
+                <button type="button" data-bs-target="#carouselWrapped" data-bs-slide-to="2" aria-label="ranking"></button>
+                <button type="button" data-bs-target="#carouselWrapped" data-bs-slide-to="3" aria-label="ratings"></button>
+                <button type="button" data-bs-target="#carouselWrapped" data-bs-slide-to="4" aria-label="to-read"></button>
+                <button type="button" data-bs-target="#carouselWrapped" data-bs-slide-to="5" aria-label="languages"></button>
+              </div>
+            
             <div class="carousel-inner">
                 <!-- BOOKS READ -->
-                <div class="carousel-item active">
+                <div class="carousel-item active" data-bs-interval="10000">
                     <div class="row">
-                        <h3>This year you've read...</h3>
+                        <h4>This year you've read...</h4>
                         <div class="col text-center">
                             <div id="number_books"></div>
                         </div>
@@ -81,60 +90,65 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-                        <h3>and this was your book-reading pace</h3>
+                        <h4>and this was your book-reading pace</h4>
                         <div id="monthly_reads"></div>
                     </div>
                 </div> 
                 <!-- MOST READ -->
-                <div class="carousel-item">
+                <div class="carousel-item"  data-bs-interval="10000">
                     <div class="row">
-                        <h3 id="most_read_text">There are old and new friends among your readings...</h3>
+                        <h4 id="most_read_text">There are old and new friends among your readings...</h4>
                         <div id="ratio_authors"></div>
                     </div>
                     <div class="row mt-3">
-                        <h3>but of all of them, the one you read the most was</h3>
+                        <h4>but of all of them, the one you read the most was</h4>
                         <div id="most_read" class="text-center"></div>
                     </div>
                 </div>
-                <div class="carousel-item">
-                    <h3>These are your top-5 books this year</h3>
-                    <div id="ranking" class="mt-5"></div>
+                <!--RANKING-->
+                <div class="carousel-item"  data-bs-interval="10000">
+                    <h4>These are your top-5 books</h4>
+                    <table id="ranking" class="mt-5">
+                    </table>
                 </div>
                 <!-- RATINGS -->
-                <div class="carousel-item">
+                <div class="carousel-item"  data-bs-interval="10000">
                     <div class="row">
-                        <h3>You rated some books...</h3>
+                        <h4>We've plotted your ratings against the average</h4>
                         <div id="rating_comp"></div>
+                        <h4 class="mt-2">Do you tend to agree with other reviews?</h4>
                     </div>
                     <div class="row">
-                        <h3 id="correlation_text" class="mt-3"></h3>
+                        <h4></h4>
+                        <!-- <h4 id="correlation_text" class="mt-3"></h4> -->
                     </div>
                 </div>
                 <!-- TO-READ PILE -->
-                <div class="carousel-item">
+                <div class="carousel-item"  data-bs-interval="10000">
                     <div class="row">
-                        <h3 id="to_read_text1">Your last year's to-read pile is still to be read...</h3>
+                        <h4 id="to_read_text1">Your last year's to-read pile is still to be read...</h4>
                         <div id="read_from_to_read" class="fixed-width"></div>
                     </div>
                     <div class="row">
-                        <h3 id="to_read_text2">...but that didn't refrain you from adding more</h3>
+                        <h4 id="to_read_text2">...but that didn't refrain you from adding more</h4>
                         <div id="current_to_read" class="fixed-width"></div>
                     </div>
                 </div>
                 <!-- LANGUAGES -->
-                <div class="carousel-item" id="carousel-languages">
-                    <h3 id="languages_text"></h3>
+                <div class="carousel-item"  data-bs-interval="10000" id="carousel-languages">
+                    <h4 id="languages_text"></h4>
                     <div id="languages"></div>
+                    <h4>if you can, do you prefer to read the original version?</h4>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselWrapped" data-bs-slide="prev">
+            <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselWrapped" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselWrapped" data-bs-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
-            </button>
+            </button> -->
           </div>
     </main>
 </body>

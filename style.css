@@ -33,7 +33,7 @@ body > h1 {
 
 .highlight {
     color: #CB997E;
-    font-size: 3em;
+    font-size: 11vw;
 }
 .fixed-width {
     width: inherit;
@@ -43,4 +43,20 @@ body > h1 {
 }
 a {
     text-decoration: none !important;
+}
+.ranking {
+    font-size: 4vw;
+    padding: 10px;
+}
+.carousel-indicators {
+    position: relative;
+    top: 0;
+}
+
+.carousel-indicators [data-bs-target] {
+    background-color: #cb997e;
+    opacity: 0.4;
+}
+.carousel-indicators .active {
+    opacity: 1;
 }

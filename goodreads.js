@@ -18,7 +18,7 @@ const basicLayout = {
         l: 20,
         r: 20,
         b: 50,
-        t: 50,
+        t: 30,
     },
 };
 
@@ -33,7 +33,7 @@ function wrapped(df){
     currentToReadPile(df);
     readFromToReadPile(df);
     mostRead(df);
-    ratingComparison(df);
+    ratings(df);
     languages(df);
     ranking(df);
 }
@@ -44,9 +44,8 @@ function ranking(df){
     books = books.resetIndex();
     let top5 = books.loc({rows:[0,1,2,3,4] }).values;
 
-    document.getElementById('ranking').innerHTML = "";
     for (let k = 0; k < 5; k++) {
-        document.getElementById('ranking').innerHTML += `<div class="row"><div class="col-8"><h5><span style="color: #CB997E;">${k+1}. </span><em>${top5[k][0]}</em>, de ${top5[k][1]}</h5></div><div class="col text-center"><h5 style="color: #CB997E;">${"★".repeat(top5[k][2])}</h5></div></div>`;
+        document.getElementById('ranking').innerHTML += `<tr><td class="ranking"><span style="color: #CB997E;">${k+1}. </span><em>${top5[k][0]}</em>, de ${top5[k][1]}</td><td class="ranking text-center" style="color: #CB997E;">${"★".repeat(top5[k][2])}</td></tr>`;
     };
 }
 
@@ -101,7 +100,7 @@ function languages(df){
                     
             // plot
             let layout = {...basicLayout,
-                height: WIDTH,
+                height: WIDTH*0.7,
             }
             var data = [{
                 values: Object.values(langCount),
@@ -116,9 +115,9 @@ function languages(df){
             
             let text = document.getElementById('languages_text');
             if (n >= 3) {
-                text.innerText = 'You read books in a few languages!'
+                text.innerText = "You have read books in a few different languages"
             } else {
-                text.innerText = "You've been a bilingual reader this year!"
+                text.innerText = "You have read books in a couple of languages"
             }
             
             Plotly.newPlot('languages', data, layout, {displayModeBar: false, scrollZoom: false});
@@ -148,13 +147,13 @@ async function googleBooksAPI(x){
     return lang
 }
 
-function ratingComparison(df) {
+function ratings(df) {
     let readThisYear = df.groupby(['Read This Year']).getGroup([true]);
     let myRating = readThisYear['My Rating'].values;
     let avgRating = readThisYear['Average Rating'].values;
     
-    let corr = pcorr(myRating, avgRating).toFixed(2);
-    let color = gradientValue(corr);
+    //let corr = pcorr(myRating, avgRating).toFixed(2);
+    //let color = gradientValue(corr);
 
     // scatterPlot
     var data = {
@@ -174,7 +173,7 @@ function ratingComparison(df) {
               y: 5.5,
               xref: 'x',
               yref: 'y',
-              text: "Correlation: " + corr,
+              //text: "Correlation: " + corr,
               ax: 0,
               ay: 0
             }],
@@ -203,18 +202,18 @@ function ratingComparison(df) {
             tickmode: 'array',
             tickvals: [0,1,2,3,4,5]
         },
-        height: WIDTH
+        height: WIDTH,
     };
     Plotly.newPlot('rating_comp', [data], layout, {displayModeBar: false, staticPlot :true});
 
-    let text = document.getElementById('correlation_text');
+    /* let text = document.getElementById('correlation_text');
     if (corr < 0.5) {
         text.innerText = "...and your opinions didn't really match with the average"
     } else if (0.5 <=corr <0.8) {
         text.innerText = "...and you did not disagree much with others"
     } else {
         text.innerText = '...and thought that the reviews were quite right!'
-    }
+    } */
 }
 
 function mostRead(df){
@@ -259,7 +258,7 @@ function monthly(df){
         height: WIDTH,
     }
     let data = {
-        x: MONTH_NAME,
+        x: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         y: y,
         type: 'bar',
         name: 'Books read per month',
@@ -338,20 +337,20 @@ function readFromToReadPile(df){
         }];
     
     let layout = {...basicLayout,
-        height: screen.availHeight/3.5,
+        height: screen.availHeight/4,
     }
     
     let text = document.getElementById('to_read_text1')
     
     if (stillUnread == 0) {
-        text.innerText = "You didn't have anything on your to-read pile"
+        text.innerText = "Your last year's to-read pile was empty"
     } else {
         if (actuallyRead == 0){
             text.innerText = "You didn't touch your last year's to-read pile"
         } else if (actuallyRead/(stillUnread + actuallyRead) < 0.5) {
             text.innerText = "Your last year's to-read pile is still to be read "
         } else {
-            text.innerText = 'Wow, you are actually reading from your to-read pile'
+            text.innerText = "You actually read from your last year's to-read pile"
         }
     }
     Plotly.newPlot('read_from_to_read', data, layout, {displayModeBar: false, staticPlot :true}); 
@@ -379,7 +378,7 @@ function currentToReadPile(df){
     // plot
     var data = [{
         values: [addedThisYear, addedBefore],
-        labels: ['Added this year', 'Added in previous years'],
+        labels: ['Added this year', 'Added previously'],
         marker:{
             colors: PALETTE,
         },
@@ -389,25 +388,25 @@ function currentToReadPile(df){
         }];
     
     let layout = {...basicLayout,
-        height: screen.availHeight/3.5,
+        height: screen.availHeight/4,
     }
 
     let text = document.getElementById('to_read_text2')
     
     if (addedBefore + addedThisYear == 0) {
-        text.innerText = "and you kept everything tidy, you have no books on your to-read pile!";
+        text.innerText = "and this year's to-read pile stays the same!";
     } else {
         if (addedBefore == 0) {
-            text.innerText = 'but starting from 0, the only way is up!';
+            text.innerText = ".but you had to add books to this year's pile";
         } else {
             if (addedThisYear == 0){
-                text.innerText = "and you left it as it was";
+                text.innerText = "and this year's pile is made of leftovers";
             } else if (addedThisYear/(addedBefore + addedThisYear) < 0.5) {
                 console.log(addedThisYear);
                 console.log(addedThisYear/(addedBefore + addedThisYear));
-                text.innerText = "and you have some new stuff on your plate"
+                text.innerText = "and this year's pile has new stuff"
             } else {
-                text.innerText = 'and you want to make the problem worse';
+                text.innerText = "and this year's pile is looking worse";
             }   
         }
         Plotly.newPlot('current_to_read', data, layout, {displayModeBar: false, staticPlot :true});
